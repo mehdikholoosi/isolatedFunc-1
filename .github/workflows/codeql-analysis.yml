@@ -30,7 +30,10 @@ jobs:
       uses: github/codeql-action/init@v2
       with:
         languages: ${{ matrix.language }}
-        queries: ./codeql/queries  # Path to your custom queries directory
+        # Specify that we are in build mode to allow CodeQL to monitor the build process
+        build: |
+          cmake -B build
+          cmake --build build
 
     - name: Autobuild
       uses: github/codeql-action/autobuild@v2
