@@ -21,7 +21,6 @@ jobs:
     strategy:
       matrix:
         language: [ 'cpp' ]
-        # CodeQL uses 'cpp' for both C and C++ code analysis.
 
     steps:
     - name: Checkout repository
@@ -31,6 +30,7 @@ jobs:
       uses: github/codeql-action/init@v2
       with:
         languages: ${{ matrix.language }}
+        queries: ./codeql/queries  # Path to your custom queries directory
 
     - name: Autobuild
       uses: github/codeql-action/autobuild@v2
