@@ -4,7 +4,7 @@ struct fred_t {
     int x;
 };
 
-extern struct fred_t *fred1; // Assuming this is defined elsewhere
+struct fred_t *fred1; // Define fred1
 
 void do_something(int x) {
     // Placeholder function
@@ -45,4 +45,9 @@ void f3(int a)
 
     // if a is not 1 then p is NULL
     p->x = 0;
+}
+
+int main() {
+    // Dummy main function
+    return 0;
 }
