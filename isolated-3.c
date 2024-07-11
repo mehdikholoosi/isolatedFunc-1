@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 void f1(struct fred_t *p)
 {
     // dereference p and then check if it's NULL
