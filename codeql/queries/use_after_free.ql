@@ -1,26 +1,20 @@
 /**
  * @name Use After Free
- * @description This query detects uses of memory after it has been freed.
+ * @description Detects uses of memory after it has been freed.
  * @kind problem
- * @problem.severity error
+ * @problem.severity warning
  * @id cpp/use-after-free
  * @tags security
  */
 
 import cpp
 
-/**
- * A call to `free` function.
- */
 class FreeCall extends Call {
   FreeCall() {
     this.getTarget().hasName("free")
   }
 }
 
-/**
- * A memory allocation.
- */
 class AllocCall extends Call {
   AllocCall() {
     this.getTarget().hasName("malloc") or
@@ -29,9 +23,6 @@ class AllocCall extends Call {
   }
 }
 
-/**
- * The variable being freed.
- */
 class FreedVariable extends Variable {
   FreedVariable() {
     exists(FreeCall fc |
@@ -40,9 +31,6 @@ class FreedVariable extends Variable {
   }
 }
 
-/**
- * Use after free.
- */
 class UseAfterFree extends Expr {
   UseAfterFree() {
     exists(FreedVariable v |
