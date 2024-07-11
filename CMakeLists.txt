@@ -4,4 +4,4 @@ cmake_minimum_required(VERSION 3.10)
 project(MyProject)
 
 # Add an executable
-add_executable(my_executable isolated-1.c)
+add_executable(my_executable isolated-3.c)
