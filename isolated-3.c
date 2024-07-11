@@ -1,88 +1,34 @@
-void CWE114_Process_Control__w32_char_connect_socket_01_bad()
+void f1(struct fred_t *p)
 {
-    char * data;
-    char dataBuffer[100] = """";
-    data = dataBuffer;
+    // dereference p and then check if it's NULL
+    int x = p->x;
+    if (p)
+        do_something(x);
+}
+
+void f2()
+{
+    const char *p = NULL;
+    for (int i = 0; str[i] != '\0'; i++)
     {
-#ifdef _WIN32
-        WSADATA wsaData;
-        int wsaDataInit = 0;
-#endif
-        int recvResult;
-        struct sockaddr_in service;
-        char *replace;
-        SOCKET connectSocket = INVALID_SOCKET;
-        size_t dataLen = strlen(data);
-        do
+        if (str[i] == ' ')
         {
-#ifdef _WIN32
-            if (WSAStartup(MAKEWORD(2,2), &wsaData) != NO_ERROR)
-            {
-                break;
-            }
-            wsaDataInit = 1;
-#endif
-            /* POTENTIAL FLAW: Read data using a connect socket */
-            connectSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-            if (connectSocket == INVALID_SOCKET)
-            {
-                break;
-            }
-            memset(&service, 0, sizeof(service));
-            service.sin_family = AF_INET;
-            service.sin_addr.s_addr = inet_addr(IP_ADDRESS);
-            service.sin_port = htons(TCP_PORT);
-            if (connect(connectSocket, (struct sockaddr*)&service, sizeof(service)) == SOCKET_ERROR)
-            {
-                break;
-            }
-            /* Abort on error or the connection was closed, make sure to recv one
-             * less char than is in the recv_buf in order to append a terminator */
-            /* Abort on error or the connection was closed */
-            recvResult = recv(connectSocket, (char *)(data + dataLen), sizeof(char) * (100 - dataLen - 1), 0);
-            if (recvResult == SOCKET_ERROR || recvResult == 0)
-            {
-                break;
-            }
-            /* Append null terminator */
-            data[dataLen + recvResult / sizeof(char)] = '\0';
-            /* Eliminate CRLF */
-            replace = strchr(data, '\r');
-            if (replace)
-            {
-                *replace = '\0';
-            }
-            replace = strchr(data, '\n');
-            if (replace)
-            {
-                *replace = '\0';
-            }
-        }
-        while (0);
-        if (connectSocket != INVALID_SOCKET)
-        {
-            CLOSE_SOCKET(connectSocket);
-        }
-#ifdef _WIN32
-        if (wsaDataInit)
-        {
-            WSACleanup();
-        }
-#endif
-    }
-    {
-        HMODULE hModule;
-        /* POTENTIAL FLAW: If the path to the library is not specified, an attacker may be able to
-         * replace his own file with the intended library */
-        hModule = LoadLibraryA(data);
-        if (hModule != NULL)
-        {
-            FreeLibrary(hModule);
-            printLine(""Library loaded and freed successfully"");
-        }
-        else
-        {
-            printLine(""Unable to load library"");
+            p = str + i;
+            break;
         }
     }
+
+    // p is NULL if str doesn't have a space. If str always has a
+    // a space then the condition (str[i] != '\0') would be redundant
+    return p[1];
+}
+
+void f3(int a)
+{
+    struct fred_t *p = NULL;
+    if (a == 1)
+        p = fred1;
+
+    // if a is not 1 then p is NULL
+    p->x = 0;
 }
