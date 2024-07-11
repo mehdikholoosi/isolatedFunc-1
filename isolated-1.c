@@ -39,6 +39,12 @@ void manipulate_data(char* buffer) {
     printf("Processed data: %s\n", temp_buffer);
     free(temp_buffer);
     
+    // Deliberately use dynamic_buffer after freeing temp_buffer
+    // to make the use-after-free more obvious
+    if (length > 5) { 
+        printf("Reprocessed data: %s\n", dynamic_buffer);
+    }
+
     free(dynamic_buffer);
 }
 
