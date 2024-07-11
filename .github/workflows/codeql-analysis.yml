@@ -2,9 +2,9 @@ name: "CodeQL"
 
 on:
   push:
-    branches: [ main ]
+    branches: [ My-master ]
   pull_request:
-    branches: [ main ]
+    branches: [ My-master ]
   schedule:
     - cron: '0 5 * * 1'
 
@@ -33,10 +33,8 @@ jobs:
         languages: ${{ matrix.language }}
         # Specify that we are in build mode to allow CodeQL to monitor the build process
 
-    - name: Build project
-      run: |
-        cmake -B build
-        cmake --build build
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v2
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
