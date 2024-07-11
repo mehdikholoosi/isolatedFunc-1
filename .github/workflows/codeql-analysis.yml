@@ -32,12 +32,11 @@ jobs:
       with:
         languages: ${{ matrix.language }}
         # Specify that we are in build mode to allow CodeQL to monitor the build process
-        build: |
-          cmake -B build
-          cmake --build build
 
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v2
+    - name: Build project
+      run: |
+        cmake -B build
+        cmake --build build
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
