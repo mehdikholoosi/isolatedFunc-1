@@ -27,7 +27,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'cpp' ]
+        language: [ 'cpp' ]  # Only focusing on C (cpp here includes C)
 
     steps:
     - name: Checkout repository
@@ -42,10 +42,10 @@ jobs:
         paths-ignore: 
           - "test/*"
 
-    - name: Set up CMake
-      run: sudo apt-get install -y cmake
+    - name: Set up build environment
+      run: sudo apt-get update && sudo apt-get install -y build-essential
 
-    - name: Build project
+    - name: Build the code
       run: |
         mkdir build
         cd build
